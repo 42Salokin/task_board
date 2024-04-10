@@ -33,10 +33,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            ...
+            <form action="notsure" class="bg-white rounded p-3 my-3">
+              <div class="form-group py-2">
+                <label for="taskTitle">Task Title</label>
+                <input type="text" id="taskTitle" class="form-control" placeholder="Title" required />
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
             <button type="button" class="btn btn-success">Add Task</button>
           </div>
         </div>
