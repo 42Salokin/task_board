@@ -5,6 +5,7 @@ const taskBtn = $('#taskBtn');
 const title = $("#taskTitle");
 const dueDate = $("#datepicker");
 const description = $("#description");
+const todoCards = $("#todo-cards");
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -12,43 +13,31 @@ function generateTaskId() {
 }
 
 // Todo: create a function to create a task card
-function createTaskCard(task) {
-    const todoCards = $("#todo-cards");
+function createTaskCard() {
+    for (let i=0; i < taskList.length; i++) {
+      let card = $("<div>").addClass('card draggable my-3');
+      let cardHead = $('<div>').addClass('card-header').text(taskList[i].title);
+      let cardBody = $("<div>").addClass('card-body');
+      let cardTitle = $("<h5>").addClass('card-title').text(taskList[i].description);
+      let cardText = $("<p>").addClass('card-text').text(taskList[i].dueDate);
+      let cardBtn = $("<button>").addClass('btn btn-danger delete').text('Delete');
 
-    let card = $("<div>");
-    let cardHead = $('<div>');
-    let cardBody = $("<div>");
-    let cardTitle = $("<h5>");
-    let cardText = $("<p>");
-    let cardBtn = $("<button>");
+      cardBody.append(cardTitle, cardText, cardBtn);
+      // cardBody.append(cardText);
+      // cardBody.append(cardBtn);
+      card.append(cardHead, cardBody);
+      // card.append(cardBody);
 
-    card.attr('class', 'card');
-    card.attr('id', 'draggable');
-    cardHead.attr('class', 'card-header');
-    cardBody.attr('class', 'card-body');
-    cardTitle.attr('class', 'card-title');
-    cardText.attr('class', 'card-text');
-    cardBtn.attr('class', 'btn btn-danger');
-
-    cardHead.text('Task Title');
-    cardTitle.text('Description');
-    cardText.text('Due Date');
-    cardBtn.text('Delete');
-
-    cardBody.append(cardTitle);
-    cardBody.append(cardText);
-    cardBody.append(cardBtn);
-    card.append(cardHead);
-    card.append(cardBody);
-    todoCards.append(card);
-
-    console.log(card);
-    renderTaskList();
+      todoCards.append(card);
+      console.log(card);
+      renderTaskList();
+      return card;
+    }  
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-    $( "#draggable" ).draggable();
+    $( ".draggable" ).draggable();
 }
 
 // Todo: create a function to handle adding a new task
@@ -71,9 +60,9 @@ $(document).ready(function () {
     $( "#datepicker" ).datepicker();
     taskBtn.on('click', function (event) {
         const taskEntry = {
-            title: title.value,
-            dueDate: dueDate.value,
-            description: description.value,
+            title: title.val(),
+            dueDate: dueDate.val(),
+            description: description.val(),
         }
         taskList.push(taskEntry);
         localStorage.setItem('tasks', JSON.stringify(taskList));
