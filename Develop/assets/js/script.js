@@ -14,31 +14,33 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
     const todoCards = document.querySelector('#todo-cards');
-    let card = document.createElement("div");
-    let cardHead = document.createElement('div');
-    let cardBody = document.createElement("div");
-    let cardTitle = document.createElement("h5");
-    let cardText = document.createElement("p");
-    let cardBtn = document.createElement("button");
+    let card = $("<div>");
+    let cardHead = $('<div>');
+    let cardBody = $("<div>");
+    let cardTitle = $("<h5>");
+    let cardText = $("<p>");
+    let cardBtn = $("<button>");
 
-    card.setAttribute('class', 'card');
-    cardHead.setAttribute('class', 'card-header');
-    cardBody.setAttribute('class', 'card-body');
-    cardTitle.setAttribute('class', 'card-title');
-    cardText.setAttribute('class', 'card-text');
-    cardBtn.setAttribute('class', 'btn btn-danger');
+    card.attr('class', 'card');
+    cardHead.attr('class', 'card-header');
+    cardBody.attr('class', 'card-body');
+    cardTitle.attr('class', 'card-title');
+    cardText.attr('class', 'card-text');
+    cardBtn.attr('class', 'btn btn-danger');
 // jQuery commands need the $() at the beginning
-    $(cardHead).text('Task Title');
-    cardTitle.textContent = 'Description';
-    cardText.textContent = 'Due Date';
-    cardBtn.textContent = 'Delete';
+    cardHead.text('Task Title');
+    cardTitle.text('Description');
+    cardText.text('Due Date');
+    cardBtn.text('Delete');
 
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(cardText);
-    cardBody.appendChild(cardBtn);
-    card.appendChild(cardHead);
-    card.appendChild(cardBody);
-    todoCards.appendChild(card);
+    cardBody.append(cardTitle);
+    cardBody.append(cardText);
+    cardBody.append(cardBtn);
+    card.append(cardHead);
+    card.append(cardBody);
+    todoCards.append(card);
+    console.log(card);
+
 }
 
 // Todo: create a function to render the task list and make cards draggable
