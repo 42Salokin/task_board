@@ -9,7 +9,13 @@ const todoCards = $("#todo-cards");
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
-    
+    if (nextId === null) {
+        nextId = 1;
+    } else {
+        nextId++;
+    }
+    localStorage.setItem('nextID', JSON.stringify(nextId));
+    return nextId;
 }
 
 // Todo: create a function to create a task card
@@ -24,11 +30,25 @@ function createTaskCard() {
       let cardText = $("<p>").addClass('card-text').text(lastTask[i].dueDate);
       let cardBtn = $("<button>").addClass('btn btn-danger delete').text('Delete');
 
+      card.attr('data-project-id');
+
       cardBody.append(cardTitle, cardText, cardBtn);
       card.append(cardHead, cardBody);
 
       todoCards.append(card);
-      console.log(card);
+
+      let now = dayjs();
+      let taskDueDate = dayjs(lastTask[i].dueDate, 'DD/MM/YYYY');
+      console.log(now);
+      console.log(taskDueDate);
+
+      if (now.isBefore(taskDueDate, 'day')) {
+        card.addClass('bg-warning text-white');
+      } else if (now.isAfter(taskDueDate)) {
+        card.addClass('bg-danger text-white');
+        cardBtn.addClass('border-light');
+      }
+
       renderTaskList();
       
       title.val('');
@@ -49,7 +69,12 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-
+  cardBtn.on('click', function (event) {
+    const taskID = $(this).attr('data-task-id');
+    taskList = taskList.filter(task => task.id !== parseInt(taskID));
+    localStorage.setItem('tasklist', JSON.stringify(taskList));
+    renderTaskList();
+  })
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
@@ -62,10 +87,13 @@ $(document).ready(function () {
     $( "#datepicker" ).datepicker();
     $( ".droppable" ).droppable();
     taskBtn.on('click', function (event) {
+        // possibly put all this in handleAddTask
         const taskEntry = {
+            id: generateTaskId(),
             title: title.val(),
             dueDate: dueDate.val(),
             description: description.val(),
+            status: 'to-do',
         }
         taskList.push(taskEntry);
         localStorage.setItem('tasks', JSON.stringify(taskList));
