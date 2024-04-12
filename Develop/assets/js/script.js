@@ -14,24 +14,26 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard() {
-    for (let i=0; i < taskList.length; i++) {
-      let card = $("<div>").addClass('card draggable my-3');
-      let cardHead = $('<div>').addClass('card-header').text(taskList[i].title);
+    let lastTask = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    for (let i=0; i < lastTask.length; i++) {
+      let card = $("<div>").addClass('task-card draggable my-3');
+      let cardHead = $('<div>').addClass('card-header').text(lastTask[i].title);
       let cardBody = $("<div>").addClass('card-body');
-      let cardTitle = $("<h5>").addClass('card-title').text(taskList[i].description);
-      let cardText = $("<p>").addClass('card-text').text(taskList[i].dueDate);
+      let cardTitle = $("<h5>").addClass('card-title').text(lastTask[i].description);
+      let cardText = $("<p>").addClass('card-text').text(lastTask[i].dueDate);
       let cardBtn = $("<button>").addClass('btn btn-danger delete').text('Delete');
 
       cardBody.append(cardTitle, cardText, cardBtn);
-      // cardBody.append(cardText);
-      // cardBody.append(cardBtn);
       card.append(cardHead, cardBody);
-      // card.append(cardBody);
 
       todoCards.append(card);
       console.log(card);
       renderTaskList();
-      return card;
+      
+      title.val('');
+      description.val('');
+      dueDate.val('');
     }  
 }
 
@@ -58,6 +60,7 @@ function handleDrop(event, ui) {
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
     $( "#datepicker" ).datepicker();
+    $( ".droppable" ).droppable();
     taskBtn.on('click', function (event) {
         const taskEntry = {
             title: title.val(),
