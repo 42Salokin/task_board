@@ -6,7 +6,7 @@ body {
 .swim-lanes {
   min-height: 60vh;
 }
-
+/* give the card a little border, make it look more defined */
 .task-card {
   margin: 0 auto;
   z-index: 100;
