@@ -67,6 +67,8 @@ function createTaskCard() {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+  // empties the columns and creates all the task cards from local storage over again
+    todoCards.empty();
     createTaskCard();
     $( ".draggable" ).draggable();
 }
@@ -77,24 +79,24 @@ function handleAddTask(event){
 }
 
 // Todo: create a function to handle deleting a task
-// I tried two different methods, a filter and a for/each, and neither works. Not sure what I need to change to make it work
 function handleDeleteTask(event){
-    const taskID = $(this).attr('data-task-id');
-    console.log(taskID);
-    // taskList = taskList.filter(task => task.id !== parseInt(taskID));
-    taskList.forEach((task) => {
-        if (task.id === taskID) {
-            taskList.splice(taskList.indexOf(task), 1);
-        }
-    });
-    // taskID.remove();
+  // finds the closest element to the delete button with a class of "task-card", gives its unique id, and turns it into a number
+    const taskID = parseInt($(this).closest(".task-card").attr('data-task-id'));
+    // filters the task with that id out of the array
+    taskList = taskList.filter(task => task.id !== taskID);
+    // puts the array withouth that task back into local storage
     localStorage.setItem('tasklist', JSON.stringify(taskList));
-    renderTaskList();
-}
+    // removes that task card element from the page
+    $(this).closest(".task-card").remove();
+  }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
 // This has something to do with the status change I set in lines 42-47, need to figure out what to do with this
+// create event handler get the task card
+// make card droppable
+// get the id of dropped card
+// get the status of dropped colum
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
@@ -115,6 +117,10 @@ $(document).ready(function () {
         console.log(taskEntry);
         console.log(taskList);
         renderTaskList();
+
+        title.val('');
+        description.val('');
+        dueDate.val('');
     });
     renderTaskList();
 });
